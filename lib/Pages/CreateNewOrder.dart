@@ -16,11 +16,13 @@ class CreateState extends State<Create> {
   Widget build(BuildContext context) {
     // HELPING VARIABLES
     double? screenWidth = MediaQuery.of(context).size.width;
+    double? screenHeight = MediaQuery.of(context).size.height;
 
     // RENDERING WIDGETS
     return (Container(
         padding: EdgeInsets.only(top: 10),
         width: screenWidth,
+        // height: screenHeight - 250,
         child: Flex(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

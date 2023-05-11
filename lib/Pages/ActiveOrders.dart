@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paani/Components/ActiveOrders/ActiveOrdersContainer.dart';
 import 'package:paani/Components/Title.dart';
 
 class ActiveOrders extends StatefulWidget {
@@ -26,6 +27,7 @@ class ActiveOrdersState extends State<ActiveOrders> {
           direction: Axis.vertical,
           children: [
             CustomTitle(title: "Active Orders"),
+            ActiveOrdersContainer()
           ],
         )));
   }
