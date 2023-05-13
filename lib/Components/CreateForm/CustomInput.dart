@@ -7,6 +7,7 @@ class CustomInput extends StatelessWidget {
   String label;
   double size;
   Icon icon;
+  String? defaultValue;
   Function(String)? updateValue;
   CustomInput(
       {super.key,
@@ -15,7 +16,8 @@ class CustomInput extends StatelessWidget {
       required this.label,
       required this.icon,
       required this.size,
-      this.updateValue});
+      this.updateValue,
+      this.defaultValue});
   @override
   Widget build(BuildContext context) {
     // FUNCTIONS
@@ -26,11 +28,18 @@ class CustomInput extends StatelessWidget {
       }
     }
 
+    // SIDE VARIABES
+    TextEditingController tec = TextEditingController();
+    if (defaultValue != null) {
+      tec.text = defaultValue ?? "";
+    }
+
     // RENDERING COMPONENTS
     return (Container(
       margin: EdgeInsets.only(bottom: 20),
       width: size,
       child: TextField(
+        controller: tec,
         decoration: InputDecoration(
             border: const OutlineInputBorder(),
             hintText: label,

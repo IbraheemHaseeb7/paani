@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:paani/Components/Riders/RiderEdit.dart';
 
-class RiderContainer extends StatelessWidget {
+class RiderContainer extends StatefulWidget {
   Map<String, String> rider;
   Function(int) delete;
   int index;
@@ -11,10 +12,34 @@ class RiderContainer extends StatelessWidget {
       required this.index});
 
   @override
+  RiderContainerState createState() => RiderContainerState();
+}
+
+class RiderContainerState extends State<RiderContainer> {
+  Map<String, String?> input = {};
+
+  @override
   Widget build(BuildContext context) {
     // FUNCTIONS
     void handleDelete() {
-      delete(index);
+      widget.delete(widget.index);
+    }
+
+    void handleEdit() async {
+      await showDialog(
+          context: context,
+          builder: (BuildContext editContext) {
+            return RiderEdit(
+              rider: widget.rider,
+              input: input,
+            );
+          });
+      setState(() {
+        widget.rider["name"] = input["name"] ?? "";
+        widget.rider["phone"] = input["phone"] ?? "";
+        widget.rider["salary"] = input["salary"] ?? "";
+        widget.rider["totalDeliveries"] = input["totalDeliveries"] ?? "";
+      });
     }
 
     // HELPING VARIABLES
@@ -32,13 +57,13 @@ class RiderContainer extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.only(left: 10),
-            child: Text(rider["name"] ?? "",
+            child: Text(widget.rider["name"] ?? "",
                 style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w500)),
           ),
           Row(children: [
             IconButton(
-                onPressed: () {},
+                onPressed: handleEdit,
                 icon: const Icon(Icons.edit, color: Colors.white)),
             IconButton(
                 onPressed: handleDelete,

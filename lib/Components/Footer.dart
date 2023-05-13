@@ -37,8 +37,8 @@ class FooterState extends State<Footer> {
                 icon: const Icon(Icons.bike_scooter),
                 makeSelection: widget.makeSelection),
             FooterButton(
-                name: "Settings",
-                icon: const Icon(Icons.settings),
+                name: "Clients",
+                icon: const Icon(Icons.cases),
                 makeSelection: widget.makeSelection),
           ],
         )));

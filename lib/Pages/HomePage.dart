@@ -3,6 +3,7 @@ import 'package:paani/Classes/User.dart';
 import 'package:paani/Components/Footer.dart';
 import 'package:paani/Components/Title.dart';
 import 'package:paani/Pages/ActiveOrders.dart';
+import 'package:paani/Pages/Clients.dart';
 import 'package:paani/Pages/CreateNewOrder.dart';
 import 'package:paani/Pages/Riders.dart';
 
@@ -40,10 +41,12 @@ class HomePageState extends State<HomePage> {
             return Create();
           case "Active":
             return ActiveOrders();
-          case "Rider":
+          case "Riders":
             return Riders();
+          case "Clients":
+            return Clients();
           default:
-            return Riders();
+            return Clients();
         }
       }())),
       bottomNavigationBar: Footer(makeSelection: makeSelection),
