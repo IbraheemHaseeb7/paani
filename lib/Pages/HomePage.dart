@@ -23,7 +23,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // HELPING VARIABLES
-    String USER = widget.user.name;
+    String USER = widget.user.name ?? "";
 
     // FUNCTIONS
     void makeSelection(String sel) {

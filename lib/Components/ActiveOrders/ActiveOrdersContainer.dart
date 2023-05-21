@@ -131,7 +131,7 @@ class ActiveOrdersContainerState extends State<ActiveOrdersContainer> {
                                   setState(() {
                                     orders[index]["status"] = "delivering";
                                     orders[index]["rider"] =
-                                        MyApp.activeUser.name;
+                                        MyApp.activeUser.name ?? "";
                                   });
                                   Navigator.of(boxContext).pop();
                                 },

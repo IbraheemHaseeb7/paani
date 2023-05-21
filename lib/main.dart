@@ -1,16 +1,25 @@
+import 'dart:async';
+
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:paani/Classes/User.dart';
 import 'package:paani/Pages/HomePage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:paani/firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   static String accountType = "rider";
   static User activeUser = User("Munchi Kaka", "rider", "123", "a1s2d3f4");
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   // This widget is the root of your application.
   @override
@@ -39,10 +48,27 @@ class LoginPageState extends State<LoginPage> {
   TextEditingController pass = TextEditingController();
   TextEditingController user = TextEditingController();
   Map<String, String> inputs = {};
-  List<User> users = [
-    User("Ali Mussadiq", "admin", "123", "a1s2d3f4"),
-    User("Rashid Nadeem", "rider", "234", "f4d3s2a1")
-  ];
+
+  CollectionReference users = MyApp.firestore.collection("users");
+
+  Future<User> getUser(String name, String password) async {
+    Map data = {};
+    Future<QuerySnapshot> res = users
+        .where("name", isEqualTo: name)
+        .where("password", isEqualTo: password)
+        .get();
+    await res.then((value) {
+      value.docs.forEach((element) {
+        data = element.data() as Map;
+      });
+    });
+    if (data.isEmpty) {
+      return User.empty();
+    } else {
+      return User(data["name"] as String, data["title"] as String,
+          data["id"] as String, data["password"] as String);
+    }
+  }
 
   void handleChange(String val, String type) {
     inputs[type] = val;
@@ -69,7 +95,7 @@ class LoginPageState extends State<LoginPage> {
               width: screenWidth,
               child: const Image(
                 fit: BoxFit.cover,
-                image: AssetImage("../Assets/image.png"),
+                image: AssetImage("../lib/Assets/image.png"),
               )),
           Container(
               margin: EdgeInsets.only(bottom: 20),
@@ -133,59 +159,54 @@ class LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   if (_selectedValue == "admin") {
                     bool _loggingIn = false;
-                    for (var u in users) {
-                      if (u.title == "admin" &&
-                          u.name == inputs["username"] &&
-                          u.password == inputs["password"]) {
-                        MyApp.activeUser = u;
-                        MyApp.accountType = "admin";
+                    getUser(inputs["username"] ?? "", inputs["password"] ?? "")
+                        .then((value) {
+                      if (value.name != null) {
+                        MyApp.activeUser = value;
+                        MyApp.accountType = value.title ?? "";
                         clearInputs();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage(user: u)));
+                                builder: (context) => HomePage(user: value)));
                         _loggingIn = true;
-                        break;
+                        return;
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Invalid Input!'),
+                            duration: Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                          ),
+                        );
                       }
-                    }
-                    if (!_loggingIn) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Invalid Input!'),
-                          duration: Duration(seconds: 2),
-                          behavior: SnackBarBehavior.floating,
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                        ),
-                      );
-                    }
+                    });
                   } else if (_selectedValue == "rider") {
                     bool _loggingIn = false;
-                    for (var u in users) {
-                      if (u.title == "rider" &&
-                          u.name == inputs["username"] &&
-                          u.password == inputs["password"]) {
-                        MyApp.activeUser = u;
+                    getUser(inputs["username"] ?? "", inputs["password"] ?? "")
+                        .then((value) {
+                      if (value.name != null) {
+                        MyApp.activeUser = value;
                         MyApp.accountType = "rider";
                         clearInputs();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage(user: u)));
+                                builder: (context) => HomePage(user: value)));
                         _loggingIn = true;
-                        break;
+                        return;
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Invalid Input!'),
+                            duration: Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                          ),
+                        );
                       }
-                    }
-
-                    if (!_loggingIn) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Invalid Input!'),
-                          duration: Duration(seconds: 2),
-                          behavior: SnackBarBehavior.floating,
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                        ),
-                      );
-                    }
+                    });
                   }
                 },
                 child: const Text("Login")),
