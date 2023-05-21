@@ -20,16 +20,20 @@ class CreateState extends State<Create> {
 
     // RENDERING WIDGETS
     return (Container(
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 10, bottom: 20),
         width: screenWidth,
         // height: screenHeight - 250,
-        child: Flex(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          direction: Axis.vertical,
+        child: ListView(
           children: [
-            CustomTitle(title: "Add new Delivery Order"),
-            CreateForm()
+            Flex(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              direction: Axis.vertical,
+              children: [
+                CustomTitle(title: "Add new Delivery Order"),
+                CreateForm()
+              ],
+            )
           ],
         )));
   }

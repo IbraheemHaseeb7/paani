@@ -37,7 +37,7 @@ class LittleBox extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       child: Text(
         value,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white, fontSize: 12),
       ),
     );
   }
