@@ -39,7 +39,7 @@ class CustomInput extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 20),
       width: size,
       child: TextField(
-        controller: tec,
+        // controller: tec,
         decoration: InputDecoration(
             border: const OutlineInputBorder(),
             hintText: label,

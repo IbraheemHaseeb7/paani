@@ -46,7 +46,7 @@ class HomePageState extends State<HomePage> {
           case "Clients":
             return Clients();
           default:
-            return Clients();
+            return ActiveOrders();
         }
       }())),
       bottomNavigationBar: Footer(makeSelection: makeSelection),

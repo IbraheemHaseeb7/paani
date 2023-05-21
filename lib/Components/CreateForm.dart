@@ -25,10 +25,11 @@ class CreateFormState extends State<CreateForm> {
   String previous = "0";
   void updateValue(String value) {
     setState(() {
-      if (value == "")
+      if (value == "") {
         amount = "0";
-      else
+      } else {
         amount = value;
+      }
     });
   }
 

@@ -70,36 +70,43 @@ class ActiveOrdersContainerState extends State<ActiveOrdersContainer> {
                             direction: Axis.horizontal,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Name"),
+                              const Text("Name"),
                               Text(orders[index]["name"] ?? "")
                             ]),
                         Flex(
                             direction: Axis.horizontal,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Return"),
+                              const Text("Return"),
                               Text(orders[index]["returning"] ?? "")
                             ]),
                         Flex(
                             direction: Axis.horizontal,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Give"),
+                              const Text("Give"),
                               Text(orders[index]["give"] ?? "")
                             ]),
                         Flex(
                             direction: Axis.horizontal,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Status"),
+                              const Text("Status"),
                               Text(orders[index]["status"] ?? "")
                             ]),
                         Flex(
                             direction: Axis.horizontal,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Amount"),
+                              const Text("Amount"),
                               Text(orders[index]["amount"] ?? "")
+                            ]),
+                        Flex(
+                            direction: Axis.horizontal,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Rider"),
+                              Text(orders[index]["rider"] ?? "")
                             ]),
                       ])),
               actions: [
@@ -117,15 +124,33 @@ class ActiveOrdersContainerState extends State<ActiveOrdersContainer> {
 
                         // ACCEPT BUTTON DISPLAYED FOR RIDERS ONLY
                         (() {
-                          if (MyApp.accountType == "rider") {
+                          if (MyApp.accountType == "rider" &&
+                              orders[index]["status"] == "active") {
                             return ElevatedButton(
                                 onPressed: () {
-                                  print("You accepted this order");
+                                  setState(() {
+                                    orders[index]["status"] = "delivering";
+                                    orders[index]["rider"] =
+                                        MyApp.activeUser.name;
+                                  });
                                   Navigator.of(boxContext).pop();
                                 },
-                                child: Text("Accept"));
-                          } else
+                                child: const Text("Accept"));
+                          }
+                          return Container();
+                        })(),
+                        // COMPLETED BUTTON FOR RIDER WHEN THE ORDER IS COMPLETED
+                        (() {
+                          if (MyApp.accountType == "rider" &&
+                              orders[index]["status"] == "delivering") {
+                            return ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(boxContext).pop();
+                                },
+                                child: const Text("completed"));
+                          } else {
                             return Container();
+                          }
                         })(),
                         // DELETE BUTTON DISPLAYED FOR ADMINS ONLY
                         (() {

@@ -8,7 +8,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  static String accountType = "admin";
+  static String accountType = "rider";
+  static User activeUser = User("Munchi Kaka", "rider", "123", "a1s2d3f4");
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -19,8 +20,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: LoginPage(),
-      home: HomePage(user: User("Ali Mussadiq", "admin", "123", "a1s2d3f4")),
+      home: LoginPage(),
+      // home: HomePage(user: activeUser),
     );
   }
 }
@@ -35,6 +36,8 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   bool _isPass = true;
   var _selectedValue;
+  TextEditingController pass = TextEditingController();
+  TextEditingController user = TextEditingController();
   Map<String, String> inputs = {};
   List<User> users = [
     User("Ali Mussadiq", "admin", "123", "a1s2d3f4"),
@@ -43,6 +46,13 @@ class LoginPageState extends State<LoginPage> {
 
   void handleChange(String val, String type) {
     inputs[type] = val;
+  }
+
+  void clearInputs() {
+    pass.clear();
+    user.clear();
+    inputs["username"] = "";
+    inputs["password"] = "";
   }
 
   @override
@@ -65,6 +75,7 @@ class LoginPageState extends State<LoginPage> {
               margin: EdgeInsets.only(bottom: 20),
               padding: EdgeInsets.only(left: 20, right: 20),
               child: TextField(
+                  controller: user,
                   onChanged: (val) => handleChange(val, "username"),
                   decoration: const InputDecoration(
                       label: Text("username"),
@@ -73,6 +84,7 @@ class LoginPageState extends State<LoginPage> {
           Container(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: TextField(
+                  controller: pass,
                   obscureText: _isPass,
                   onChanged: (String val) => handleChange(val, "password"),
                   decoration: InputDecoration(
@@ -125,6 +137,9 @@ class LoginPageState extends State<LoginPage> {
                       if (u.title == "admin" &&
                           u.name == inputs["username"] &&
                           u.password == inputs["password"]) {
+                        MyApp.activeUser = u;
+                        MyApp.accountType = "admin";
+                        clearInputs();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -149,6 +164,9 @@ class LoginPageState extends State<LoginPage> {
                       if (u.title == "rider" &&
                           u.name == inputs["username"] &&
                           u.password == inputs["password"]) {
+                        MyApp.activeUser = u;
+                        MyApp.accountType = "rider";
+                        clearInputs();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
