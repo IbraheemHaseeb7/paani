@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paani/Components/CreateForm/CustomInput.dart';
 
 class ClientEdit extends StatefulWidget {
-  Map<String, String?> client;
+  Map<String, dynamic?> client;
   Map<String, String?> input;
   ClientEdit({super.key, required this.client, required this.input});
 

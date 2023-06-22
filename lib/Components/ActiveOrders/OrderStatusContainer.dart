@@ -11,10 +11,10 @@ class OrderStatusContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 130,
       margin: EdgeInsets.only(right: 10),
-      child: Flex(
+      child: Wrap(
         direction: Axis.horizontal,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           LittleBox(value: "Return: $returning"),
           LittleBox(value: "Give: $give"),

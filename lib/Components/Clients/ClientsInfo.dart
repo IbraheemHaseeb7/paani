@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paani/Components/Clients/ClientsEdit.dart';
 
 class ClientsInformation extends StatefulWidget {
-  Map<String, String> client;
+  Map<String, dynamic> client;
   Function(int) delete;
   int index;
   ClientsInformation(

@@ -1,16 +1,7 @@
-# paani
+# Paani
 
-A new Flutter project.
+Order and Delivery Application for Local Business
 
-## Getting Started
+## About
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This client needs an application where they can manage their customers and riders. Riders deliver water bottles to the customer's homes or offices. Admin places an order on the application which the rider can view from their account on their phone. They can then accept the order if they are free at the moment and the status of the order will be set to delivering. Once done, the rider will set the order as Completed and the order will move to the Completed Orders Section.

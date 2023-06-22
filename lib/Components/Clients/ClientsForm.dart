@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:paani/Components/CreateForm/CustomInput.dart';
+import 'package:paani/main.dart';
 
 class ClientsForm extends StatefulWidget {
-  Function(Map<String, String>) addClients;
-  ClientsForm({super.key, required this.addClients});
+  Function() addClients;
+  String Function() getCustomerId;
+  ClientsForm(
+      {super.key, required this.addClients, required this.getCustomerId});
 
   @override
   _ClientsFormState createState() => _ClientsFormState();
@@ -24,7 +27,13 @@ class _ClientsFormState extends State<ClientsForm> {
           (input["address"] == "" || input["address"] == null) ||
           (input["phone"] == "" || input["phone"] == null)) {
       } else {
-        widget.addClients(input);
+        MyApp.firestore.collection("clients").doc(widget.getCustomerId()).set({
+          "name": input["name"],
+          "phone": input["phone"],
+          "address": input["address"],
+          "id": widget.getCustomerId()
+        });
+        widget.addClients();
         Navigator.of(context).pop();
       }
     }

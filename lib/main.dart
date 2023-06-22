@@ -15,8 +15,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static String accountType = "rider";
-  static User activeUser = User("Munchi Kaka", "rider", "123", "a1s2d3f4");
+  static String accountType = "admin";
+  static User activeUser = User("Munchi Kaka", "admin", "123", "a1s2d3f4");
   MyApp({super.key});
 
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
-      // home: HomePage(user: activeUser),
+      // home: LoginPage(),
+      home: HomePage(user: activeUser),
     );
   }
 }

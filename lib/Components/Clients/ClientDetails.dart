@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ClientDetails extends StatelessWidget {
-  Map<String, String> client;
+  Map<String, dynamic> client;
   ClientDetails({super.key, required this.client});
 
   @override
@@ -12,20 +12,22 @@ class ClientDetails extends StatelessWidget {
         style: const TextStyle(color: Colors.blue),
       ),
       content: Container(
-        height: 70,
+        height: 150,
         child: Flex(direction: Axis.vertical, children: [
           Flex(
               direction: Axis.horizontal,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Address: ",
+                  "Address:        ",
                   style: TextStyle(color: Colors.black),
                 ),
-                Text(
+                Flexible(
+                    child: Text(
                   client["address"] ?? "",
                   style: const TextStyle(color: Colors.black),
-                )
+                ))
               ]),
           Flex(
               direction: Axis.horizontal,
