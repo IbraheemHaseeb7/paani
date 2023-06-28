@@ -1,31 +1,38 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:paani/Classes/User.dart';
 import 'package:paani/Pages/HomePage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paani/firebase_options.dart';
+import 'package:http/http.dart' as http;
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // notification test
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print("Received a notification: ${message.notification!.body}");
+  });
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  static String companyID = "CP1";
   static String accountType = "admin";
-  static User activeUser = User("Munchi Kaka", "admin", "123", "a1s2d3f4");
+  static User activeUser = User("Munchi Kaka", "admin", "R1", "a1s2d3f4");
   MyApp({super.key});
-
-  static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'WDA',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -49,24 +56,39 @@ class LoginPageState extends State<LoginPage> {
   TextEditingController user = TextEditingController();
   Map<String, String> inputs = {};
 
-  CollectionReference users = MyApp.firestore.collection("users");
-
   Future<User> getUser(String name, String password) async {
-    Map data = {};
-    Future<QuerySnapshot> res = users
-        .where("name", isEqualTo: name)
-        .where("password", isEqualTo: password)
-        .get();
-    await res.then((value) {
-      value.docs.forEach((element) {
-        data = element.data() as Map;
-      });
-    });
-    if (data.isEmpty) {
-      return User.empty();
+    String username = inputs["username"] ?? "";
+    String pass = inputs["password"] ?? "";
+    const url =
+        'https://paani-api.netlify.app/.netlify/functions/api/query'; // Replace with your API endpoint URL
+
+    final headers = {'Content-Type': 'application/json'};
+    final body = {
+      'query':
+          "select * from [Users] u where u.username='$username' and u.pass='$pass' and u.[Company ID]='${MyApp.companyID}'"
+    };
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode(body),
+    );
+
+    if (response.statusCode == 200) {
+      // Data successfully inserted
+      List<dynamic> res = jsonDecode(response.body);
+      if (res.length == 0) {
+        return User.empty();
+      } else {
+        return User(
+            res[0]["username"] as String,
+            (res[0]["uid"] as String)[0] == 'U' ? "admin" : "rider",
+            res[0]["uid"] as String,
+            res[0]["pass"] as String);
+      }
     } else {
-      return User(data["name"] as String, data["title"] as String,
-          data["id"] as String, data["password"] as String);
+      // Error occurred
+      return User.empty();
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:paani/Components/Title.dart';
 import 'package:paani/Pages/ActiveOrders.dart';
 import 'package:paani/Pages/Clients.dart';
 import 'package:paani/Pages/CreateNewOrder.dart';
+import 'package:paani/Pages/Delivering.dart';
 import 'package:paani/Pages/Riders.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,6 +42,8 @@ class HomePageState extends State<HomePage> {
             return Create();
           case "Active":
             return ActiveOrders();
+          case "Delivering":
+            return Delivering();
           case "Riders":
             return Riders();
           case "Clients":

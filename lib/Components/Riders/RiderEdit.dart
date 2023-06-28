@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:paani/Components/CreateForm/CustomInput.dart';
+import 'package:paani/main.dart';
+import 'package:http/http.dart' as http;
 
 class RiderEdit extends StatefulWidget {
-  Map<String, String?> rider;
+  Map<String, dynamic> rider;
   Map<String, String?> input;
   RiderEdit({super.key, required this.rider, required this.input});
 
@@ -19,13 +23,26 @@ class _RiderEditState extends State<RiderEdit> {
     widget.input["name"] = widget.rider["name"];
     widget.input["phone"] = widget.rider["phone"];
     widget.input["salary"] = widget.rider["salary"];
-    widget.input["totalDeliveries"] = widget.rider["totalDeliveries"];
 
     void setSelection(String name, String? value) {
       widget.input[name] = value;
     }
 
-    void handleSubmit() {
+    void handleSubmit() async {
+      const url =
+          'https://paani-api.netlify.app/.netlify/functions/api/update'; // Replace with your API endpoint URL
+
+      final headers = {'Content-Type': 'application/json'};
+      final body = {
+        'query':
+            "update Riders set [name]='${widget.input["name"]}', [phone]='${widget.input["phone"]}', [salary]=${widget.input["salary"]} where rid='${widget.rider["id"]}'"
+      };
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode(body),
+      );
       Navigator.of(context).pop();
     }
 
@@ -60,13 +77,6 @@ class _RiderEditState extends State<RiderEdit> {
                       name: "salary",
                       label: "Salary",
                       icon: const Icon(Icons.money),
-                      size: screenWidth * 0.9),
-                  CustomInput(
-                      defaultValue: widget.rider["totalDeliveries"],
-                      setSelection: setSelection,
-                      name: "totalDeliveries",
-                      label: "Total Deliveries",
-                      icon: const Icon(Icons.pedal_bike),
                       size: screenWidth * 0.9),
                   Container(
                       width: screenWidth,

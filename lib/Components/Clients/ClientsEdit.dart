@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:paani/Components/CreateForm/CustomInput.dart';
+import 'package:paani/main.dart';
+import 'package:http/http.dart' as http;
 
 class ClientEdit extends StatefulWidget {
   Map<String, dynamic?> client;
@@ -24,7 +28,21 @@ class _ClientEditState extends State<ClientEdit> {
       widget.input[name] = value;
     }
 
-    void handleSubmit() {
+    void handleSubmit() async {
+      const url =
+          'https://paani-api.netlify.app/.netlify/functions/api/update'; // Replace with your API endpoint URL
+
+      final headers = {'Content-Type': 'application/json'};
+      final body = {
+        'query':
+            "update Clients set [name]='${widget.input["name"]}', [address]='${widget.input["address"]}', [phone]='${widget.input["phone"]}' where cid='${widget.client["id"]}'"
+      };
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode(body),
+      );
       Navigator.of(context).pop();
     }
 

@@ -52,6 +52,12 @@ class FooterState extends State<Footer> {
                     icon: const Icon(Icons.local_activity_rounded),
                     makeSelection: widget.makeSelection)),
             render(
+                Container(),
+                FooterButton(
+                    name: "Delivering",
+                    icon: const Icon(Icons.delivery_dining_rounded),
+                    makeSelection: widget.makeSelection)),
+            render(
                 FooterButton(
                     name: "Riders",
                     icon: const Icon(Icons.bike_scooter),

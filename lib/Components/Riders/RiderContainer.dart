@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paani/Components/Riders/RiderEdit.dart';
 
 class RiderContainer extends StatefulWidget {
-  Map<String, String> rider;
+  Map<String, dynamic> rider;
   Function(int) delete;
   int index;
   RiderContainer(

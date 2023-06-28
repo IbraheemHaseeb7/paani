@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:paani/Components/CreateForm/CustomInput.dart';
 
-class AddRiderForm extends StatelessWidget {
+class AddRiderForm extends StatefulWidget {
   Function(Map<String, String>) addRider;
   Function showTheDialogue;
   AddRiderForm(
       {super.key, required this.addRider, required this.showTheDialogue});
 
-  Map<String, String> input = {};
+  @override
+  AddRiderFormState createState() => AddRiderFormState();
+}
 
+class AddRiderFormState extends State<AddRiderForm> {
+  Map<String, String> input = {
+    "name": "",
+    "phone": "",
+    "salary": "",
+    "password": ""
+  };
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -18,8 +27,8 @@ class AddRiderForm extends StatelessWidget {
     }
 
     void handleSubmit() {
-      addRider(input);
-      showTheDialogue();
+      widget.addRider(input);
+      widget.showTheDialogue();
     }
 
     return Container(
@@ -60,12 +69,6 @@ class AddRiderForm extends StatelessWidget {
                       name: "salary",
                       label: "Salary",
                       icon: const Icon(Icons.money),
-                      size: screenWidth * 0.8),
-                  CustomInput(
-                      setSelection: setSelection,
-                      name: "totalDeliveries",
-                      label: "Total Deliveries",
-                      icon: const Icon(Icons.pedal_bike),
                       size: screenWidth * 0.8),
                   CustomInput(
                       setSelection: setSelection,

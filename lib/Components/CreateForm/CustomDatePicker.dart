@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomDatePicker extends StatelessWidget {
+  Function(String, String?) setSelection;
+  CustomDatePicker({super.key, required this.setSelection});
+
   @override
   Widget build(BuildContext context) {
     // HELPING VARIABLES
@@ -28,7 +31,9 @@ class CustomDatePicker extends StatelessWidget {
               String day = pickedDate.day.toString();
               String month = pickedDate.month.toString();
               String year = pickedDate.year.toString();
-              tec.text = day + "-" + month + "-" + year;
+              tec.text = year + "-" + month + "-" + day;
+
+              setSelection("date", tec.text);
             }
           },
         )));

@@ -31,7 +31,7 @@ class CustomInput extends StatelessWidget {
     // SIDE VARIABES
     TextEditingController tec = TextEditingController();
     if (defaultValue != null) {
-      tec.text = defaultValue ?? "";
+      tec.text = defaultValue!;
     }
 
     // RENDERING COMPONENTS

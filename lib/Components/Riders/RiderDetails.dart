@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RiderDetails extends StatelessWidget {
-  Map<String, String> rider;
+  Map<String, dynamic> rider;
   RiderDetails({super.key, required this.rider});
 
   @override

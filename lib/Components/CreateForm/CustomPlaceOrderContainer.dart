@@ -58,8 +58,8 @@ class CustomPlaceOrderContainer extends StatelessWidget {
                     const Text("Total",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold)),
-                    Text((int.tryParse(current)! + 2000).toString(),
-                        style: TextStyle(
+                    Text((int.tryParse(current)!).toString(),
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold))
                   ]))
         ],
