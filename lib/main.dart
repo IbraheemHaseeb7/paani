@@ -8,16 +8,8 @@ import 'package:paani/Classes/User.dart';
 import 'package:paani/Pages/HomePage.dart';
 import 'package:paani/firebase_options.dart';
 import 'package:http/http.dart' as http;
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // notification test
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print("Received a notification: ${message.notification!.body}");
-  });
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
