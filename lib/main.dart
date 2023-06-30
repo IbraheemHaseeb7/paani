@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: LoginPage(),
-      home: HomePage(user: activeUser),
+      home: LoginPage(),
+      // home: HomePage(user: activeUser),
     );
   }
 }
@@ -95,6 +95,7 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     double? screenWidth = MediaQuery.of(context).size.width;
+    double? screenHeight = MediaQuery.of(context).size.height;
     return (Scaffold(
       body: Flex(
         direction: Axis.vertical,
@@ -102,7 +103,8 @@ class LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 30),
+              height: screenHeight * 0.55,
               width: screenWidth,
               child: const Image(
                 fit: BoxFit.cover,
