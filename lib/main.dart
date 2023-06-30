@@ -2,15 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:paani/Classes/User.dart';
 import 'package:paani/Pages/HomePage.dart';
-import 'package:paani/firebase_options.dart';
 import 'package:http/http.dart' as http;
 
 void main() async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
